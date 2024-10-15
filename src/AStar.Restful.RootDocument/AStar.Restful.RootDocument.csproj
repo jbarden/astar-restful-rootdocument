@@ -28,12 +28,12 @@
 	<RepositoryType>git</RepositoryType>
 	<PackageProjectUrl>https://github.com/jbarden/astar-restful-rootdocument</PackageProjectUrl>
 	<Description>Creates the Root document for use within a RESTful WebApi.</Description>
-	<Version>0.1.0</Version>
+	<Version>0.1.1</Version>
 	<Authors>Jason Barden</Authors>
 	<DocumentationFile>$(AssemblyName).xml</DocumentationFile>
 	<PackageIcon>AStar.png</PackageIcon>
 	<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-	<PackageReleaseNotes>version 0.1.0, no changes</PackageReleaseNotes>
+	<PackageReleaseNotes>version 0.1.1 has no changes - version changed to fix GitHub actions versions for Node.JS</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
