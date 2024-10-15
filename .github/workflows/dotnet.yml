@@ -32,7 +32,7 @@ jobs:
 
     - name: Cache SonarCloud scanner
       id: cache-sonar-scanner
-      uses: actions/cache@v3
+      uses: actions/cache@v4.1.1
       with:
         path: .\.sonar\scanner
         key: ${{ runner.os }}-sonar-scanner
