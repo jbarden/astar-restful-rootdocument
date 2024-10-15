@@ -9,6 +9,11 @@
             The <see cref="T:AStar.Restful.RootDocument.RootDocument"/> class used to retrieve the default root document.
             </summary>
         </member>
+        <member name="M:AStar.Restful.RootDocument.RootDocument.#ctor(Microsoft.Extensions.Logging.ILogger{AStar.Restful.RootDocument.RootDocument})">
+            <summary>
+            The <see cref="T:AStar.Restful.RootDocument.RootDocument"/> class used to retrieve the default root document.
+            </summary>
+        </member>
         <member name="M:AStar.Restful.RootDocument.RootDocument.GetLinks(System.Reflection.Assembly,System.Threading.CancellationToken)">
              <summary>
             

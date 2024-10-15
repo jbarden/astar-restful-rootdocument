@@ -3,13 +3,14 @@ using System.Text;
 using AStar.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.Extensions.Logging;
 
 namespace AStar.Restful.RootDocument;
 
 /// <summary>
 /// The <see cref="RootDocument"/> class used to retrieve the default root document.
 /// </summary>
-public class RootDocument
+public class RootDocument(ILogger<RootDocument> logger)
 {
     /// <summary>
     ///
@@ -19,6 +20,8 @@ public class RootDocument
     /// <returns></returns>
     public List<LinkResponse> GetLinks(Assembly assembly, CancellationToken cancellationToken = default)
     {
+        logger.LogDebug($"{nameof(RootDocument)} GetLinks was called.");
+
         var links = new List<LinkResponse>();
         if(cancellationToken.IsCancellationRequested)
         {
@@ -54,7 +57,7 @@ public class RootDocument
 
                     var routeTemplate = template.IsNotNullOrWhiteSpace() ? $"/{template}" : string.Empty;
                     _ = routeBuilder.Append(routeTemplate);
-                    var route = routeBuilder.ToString();
+                    var route = routeBuilder.ToString().Replace("//", "/");
                     if(route.IsNotNullOrWhiteSpace())
                     {
                         links.Add(new LinkResponse() { Rel = rel ?? "self", Href = route, Method = httpMethod });
@@ -68,8 +71,8 @@ public class RootDocument
 
     private static (string httpMethod, string? template) GetHttpMethodWithTemplate(Attribute httpMethodAttribute)
     {
-        string httpMethod;
-        string? template;
+        string httpMethod = "GET";
+        string? template = null;
         var getAttribute = httpMethodAttribute as HttpGetAttribute;
         var postAttribute = httpMethodAttribute as HttpPostAttribute;
         var deleteAttribute = httpMethodAttribute as HttpDeleteAttribute;
@@ -100,20 +103,16 @@ public class RootDocument
             template = patchAttribute.Template;
             httpMethod = "PATCH";
         }
-        else
-        {
-            throw new NotImplementedException();
-        }
 
         return (httpMethod, template);
     }
 
     private static IEnumerable<Type> GetEndpoints(Assembly assembly)
         => assembly.GetTypes().Where(t => t.Namespace?.Contains("Endpoint") == true
-            && !t.Name.EndsWith("Response")
-            && !t.Name.EndsWith("Put") && !t.Name.EndsWith("Patch")
-            && !t.Name.EndsWith("Delete")
-            && !t.Name.EndsWith("Post")
-            && !t.Name.EndsWith("Create")
+        && !t.Name.EndsWith("Response")
+        && !t.Name.EndsWith("Put") && !t.Name.EndsWith("Patch")
+        && !t.Name.EndsWith("Delete")
+        && !t.Name.EndsWith("Post")
+        && !t.Name.EndsWith("Create")
         && !t.Name.StartsWith('<'));
 }
